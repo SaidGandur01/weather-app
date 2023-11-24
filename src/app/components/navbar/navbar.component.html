@@ -1,1 +1,23 @@
-<p>navbar works!</p>
+<nav class="navbar">
+  <div class="left-items">
+    <div class="logo">
+      <img
+        src="../../../assets/images/logo.jpeg"
+        alt=""
+        (click)="goToHomePage()"
+      />
+    </div>
+  </div>
+  <div class="right-items">
+    <span
+      (click)="onItemSelected('columbia', 'LWX')"
+      [ngClass]="{ active: currentSelection === 'columbia' }"
+      >Columbia</span
+    >
+    <span
+      (click)="onItemSelected('kansas', 'TOP')"
+      [ngClass]="{ active: currentSelection === 'kansas' }"
+      >Kansas</span
+    >
+  </div>
+</nav>
