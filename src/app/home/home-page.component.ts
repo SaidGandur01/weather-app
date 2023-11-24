@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 })
 export class HomePageComponent implements OnInit {
 
+  loading = false;
   constructor(private router: Router) { }
 
   ngOnInit(): void {
