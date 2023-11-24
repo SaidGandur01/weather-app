@@ -7,7 +7,6 @@ import { HomePageComponent } from './home/home-page.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { WeatherPageComponent } from './weather-page/weather-page.component';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-// import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -20,7 +19,6 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
     AppRoutingModule,
     BrowserAnimationsModule,
     BrowserModule,
-    // NgxSpinnerModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [],
