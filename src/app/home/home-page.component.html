@@ -1,6 +1,12 @@
 <div class="home-page">
-  <h1>this is my home component</h1>
-  <button (click)="goToWeatherPage()">Go to weather page</button>
+  <div class="cloud" (click)="goToWeatherPage('LWX')">
+    <h2>District of Columbia Forecast</h2>
+    <h3>(LWX)</h3>
+  </div>
+  <div class="cloud" (click)="goToWeatherPage('TOP')">
+    <h2>Kansas Forecast</h2>
+    <h3>(TOP)</h3>
+  </div>
 </div>
 
 <ngx-loading

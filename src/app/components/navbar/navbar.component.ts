@@ -22,6 +22,7 @@ export class NavbarComponent implements OnInit {
   }
 
   goToHomePage(): void {
+    this.currentSelection = '';
     this.router.navigate(['home']);
   }
 

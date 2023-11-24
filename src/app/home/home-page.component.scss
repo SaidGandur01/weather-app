@@ -1,5 +1,100 @@
 .home-page {
+  display: flex;
+  justify-content: center;
+  gap: 15rem;
   height: calc(100vh - 150px);
   padding: 10rem;
-  // background: linear-gradient(180deg, #626e7f 10%, #181f2900 100%);
+
+  .cloud {
+    cursor: pointer;
+    position: relative;
+    margin-top: 15rem;
+    width: 400px;
+    height: 150px;
+    background: #ECEFF1;
+    box-shadow: 10px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 100px;
+    transition: all 0.3s;
+  }
+
+  .cloud:hover {
+    transform: translateY(-10px);
+  }
+
+  .cloud::after,
+  .cloud::before {
+    content: "";
+    position: relative;
+    display: inline-block;
+    background: inherit;
+    border-radius: inherit;
+  }
+
+  .cloud::after {
+    background-color: rgb(238, 238, 123);
+    width: 100px;
+    height: 100px;
+    top: -212px;
+    left: 58px;
+    z-index: 0;
+  }
+
+  .cloud::before {
+    width: 180px;
+    height: 180px;
+    top: -70px;
+    left: 135px;
+  }
+
+  h2 {
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, 25%);
+    white-space: nowrap;
+  }
+
+  h3 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 50%);
+  }
+}
+
+@media (max-width: 576px) {
+  .home-page {
+    padding: 2rem;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    justify-content: flex-start;
+
+    .cloud {
+      width: 330px;
+    }
+
+    .cloud::before {
+      width: 130px;
+      left: 150px;
+    }
+
+    .cloud::after {
+      width: 70px;
+      height: 70px;
+      left: 100px;
+    }
+
+    h2 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+  }
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { TWeatherCode } from 'src/utils/types';
 
 @Component({
   selector: 'app-home-page',
@@ -14,8 +15,8 @@ export class HomePageComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  goToWeatherPage(id?: string): void {
-    this.router.navigate(['weather', '2']);
+  goToWeatherPage(code: TWeatherCode): void {
+    this.router.navigate(['weather', code]);
   }
 
 }
