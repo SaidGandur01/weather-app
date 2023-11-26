@@ -1,11 +1,11 @@
 export interface IWeatherResponse {
-  "@context": Array<ContextClass | string>;
+  "@context": Array<IContextClass | string>;
   type:       string;
-  geometry:   Geometry;
-  properties: Properties;
+  geometry:   IGeometry;
+  properties: IProperties;
 }
 
-export interface ContextClass {
+export interface IContextClass {
   "@version": string;
   wx:         string;
   geo:        string;
@@ -13,23 +13,23 @@ export interface ContextClass {
   "@vocab":   string;
 }
 
-export interface Geometry {
+export interface IGeometry {
   type:        string;
   coordinates: Array<Array<number[]>>;
 }
 
-export interface Properties {
+export interface IProperties {
   updated:           Date;
   units:             string;
   forecastGenerator: string;
   generatedAt:       Date;
   updateTime:        Date;
   validTimes:        string;
-  elevation:         Elevation;
-  periods:           Period[];
+  elevation:         IElevation;
+  periods:           IPeriod[];
 }
 
-export interface Elevation {
+export interface IElevation {
   unitCode: UnitCode;
   value:    number | null;
 }
@@ -40,7 +40,7 @@ export enum UnitCode {
   WmoUnitPercent = "wmoUnit:percent",
 }
 
-export interface Period {
+export interface IPeriod {
   number:                     number;
   name:                       string;
   startTime:                  Date;
@@ -49,9 +49,9 @@ export interface Period {
   temperature:                number;
   temperatureUnit:            TemperatureUnit;
   temperatureTrend:           null;
-  probabilityOfPrecipitation: Elevation;
-  dewpoint:                   Elevation;
-  relativeHumidity:           Elevation;
+  probabilityOfPrecipitation: IElevation;
+  dewpoint:                   IElevation;
+  relativeHumidity:           IElevation;
   windSpeed:                  string;
   windDirection:              string;
   icon:                       string;

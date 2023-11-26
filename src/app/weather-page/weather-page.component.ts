@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
 import { WeatherService } from '../services/weather.service';
 import { TWeatherCode } from 'src/utils/types';
 import { Chart, registerables } from 'chart.js';
-import { IWeatherResponse } from 'src/utils/interfaces';
+import { IPeriod, IProperties, IWeatherResponse } from 'src/utils/interfaces';
 Chart.register(...registerables);
 
 @Component({
@@ -33,6 +33,8 @@ export class WeatherPageComponent implements OnInit, OnDestroy {
 
   lineChartInstance!: Chart;
 
+  districtCode!: TWeatherCode;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -44,6 +46,7 @@ export class WeatherPageComponent implements OnInit, OnDestroy {
       this.route.paramMap.subscribe((params: ParamMap) => {
         const id = params.get('id') as TWeatherCode;
         if (id) {
+          this.districtCode = id;
           this.getWeatherInformation(id);
         }
       })
@@ -55,8 +58,8 @@ export class WeatherPageComponent implements OnInit, OnDestroy {
       this.weatherService
         .getWeatherDetails(districtCode)
         .subscribe((weatherResponse: IWeatherResponse) => {
-          this.loading = false;
           this.weatherInformation = weatherResponse;
+          this.loading = false;
           setTimeout(() => {
             this.buildChart();
           }, 500);
@@ -66,15 +69,27 @@ export class WeatherPageComponent implements OnInit, OnDestroy {
 
   private buildChart(): void {
     console.log('this is the weather response: ', this.weatherInformation);
+    const properties: IProperties = this.weatherInformation.properties;
 
-    const labels = ['Jan', 'Feb', 'Mar', 'May', 'Jun', 'Jul', 'Aug'];
-    const data = {
-      labels: labels,
+    const xLabels = properties.periods.map((period: IPeriod) => {
+      const startTime = new Date(period.startTime);
+      const dateLabel = startTime.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+      });
+      return dateLabel;
+    });
+    const data = properties.periods.map(
+      (period: IPeriod) => period.temperature
+    );
+
+    const dataSet = {
+      labels: xLabels,
       datasets: [
         {
-          label: 'My First Dataset',
-          data: [65, 59, 80, 81, 56, 55, 40],
-          fill: false,
+          data: data,
+          fill: true,
           borderColor: 'rgb(75, 192, 192)',
           tension: 0.1,
         },
@@ -83,14 +98,101 @@ export class WeatherPageComponent implements OnInit, OnDestroy {
 
     const config = {
       type: 'line',
-      data: data,
+      data: dataSet,
+      options: {
+        responsive: true,
+        layout: {
+          padding: {
+            top: 50,
+          },
+        },
+        plugins: {
+          legend: {
+            display: false,
+            position: 'top',
+            labels: {
+              font: {
+                size: 20,
+                lineHeight: 1.5,
+              },
+            },
+          },
+          tooltip: {
+            enabled: true,
+            mode: 'nearest',
+            backgroundColor: '#fff',
+            borderColor: '#000',
+            borderWidth: 1,
+            titleColor: '#000',
+            titleFont: {
+              size: 20,
+            },
+            bodyFont: {
+              size: 17
+            },
+            titleMarginBottom: 10,
+            padding: 15,
+            titleSpacing: 5,
+            callbacks: {
+              label: function (ctx: any) {
+                const value = ctx.formattedValue;
+                return `Temperature: ${value} °F`;
+              },
+              labelTextColor: function (context: any) {
+                return '#000';
+              }
+            },
+            displayColors: false,
+            yAlign: 'bottom',
+            xAlign: 'left',
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Temperature °F',
+              font: {
+                color: '#181f29',
+                size: 25,
+                style: 'italic',
+              },
+            },
+            ticks: {
+              font: {
+                size: 20,
+              },
+              padding: 20,
+            },
+          },
+          x: {
+            title: {
+              display: true,
+              text: 'Date',
+              font: {
+                color: '#181f29',
+                size: 25,
+              },
+            },
+            ticks: {
+              font: {
+                size: 20,
+              },
+              padding: 20,
+            },
+            grid: {
+              display: false,
+            },
+          },
+        },
+      },
     };
 
     this.renderChart(config);
   }
 
   private renderChart(data: any): void {
-    console.log('aca: ', this.lineChartReference);
     if (this.lineChartReference) {
       const ctx = this.lineChartReference.nativeElement.getContext('2d');
       this.destroyChart();
