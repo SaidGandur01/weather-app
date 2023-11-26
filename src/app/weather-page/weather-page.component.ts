@@ -77,8 +77,10 @@ export class WeatherPageComponent implements OnInit, OnDestroy {
         year: 'numeric',
         month: '2-digit',
         day: '2-digit',
+        weekday: 'long',
       });
-      return dateLabel;
+      const splitData = dateLabel.split(',');
+      return [splitData[1], splitData[0]];
     });
     const data = properties.periods.map(
       (period: IPeriod) => period.temperature
@@ -90,8 +92,17 @@ export class WeatherPageComponent implements OnInit, OnDestroy {
         {
           data: data,
           fill: true,
-          borderColor: 'rgb(75, 192, 192)',
+          borderColor: '#FFCB01',
           tension: 0.1,
+          pointRadius: 7,
+          backgroundColor: (context: any) => {
+            const chart = context.chart;
+            const ctx = chart.ctx;
+            const gradient = ctx.createLinearGradient(0, 0, 0, chart.height);
+            gradient.addColorStop(0, 'rgba(255, 203, 1, 0.2)');
+            gradient.addColorStop(1, 'rgba(255, 203, 1, 0)');
+            return gradient;
+          },
         },
       ],
     };
@@ -161,6 +172,7 @@ export class WeatherPageComponent implements OnInit, OnDestroy {
             },
             ticks: {
               font: {
+                color: '#181f29',
                 size: 20,
               },
               padding: 20,
@@ -177,9 +189,8 @@ export class WeatherPageComponent implements OnInit, OnDestroy {
             },
             ticks: {
               font: {
-                size: 20,
+                size: 15,
               },
-              padding: 20,
             },
             grid: {
               display: false,

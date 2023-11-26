@@ -1,6 +1,5 @@
 <div *ngIf="!loading && districtCode" class="weather-page">
-  <h1>Weather information for {{ districtCode }}</h1>
-  <!-- <button (click)="goToHomePage()">Go to home page</button> -->
+  <h1>{{ districtCode === 'LWX' ? 'District of Columbia Forecast ( LWX )' : 'Kansas Forecast ( TOP )' }}</h1>
   <div class="canva-container">
     <canvas class="py-3 px-3" #lineChart width="550" [height]="height"></canvas>
   </div>  
