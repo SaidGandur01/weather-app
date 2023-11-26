@@ -1,6 +1,9 @@
 <div *ngIf="!loading" class="weather-page">
-  <h1>This is my weather page</h1>
-  <button (click)="goToHomePage()">Go to home page</button>
+  <!-- <h1>This is my weather page</h1>
+  <button (click)="goToHomePage()">Go to home page</button> -->
+  <div class="canva-container">
+    <canvas class="py-3 px-3" #lineChart width="550" [height]="height"></canvas>
+  </div>  
 </div>
 
 <ngx-loading
