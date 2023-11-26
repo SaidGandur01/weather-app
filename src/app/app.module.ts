@@ -7,6 +7,7 @@ import { HomePageComponent } from './home/home-page.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { WeatherPageComponent } from './weather-page/weather-page.component';
 import { NgxLoadingModule, ngxLoadingAnimationTypes } from 'ngx-loading';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { NgxLoadingModule, ngxLoadingAnimationTypes } from 'ngx-loading';
   imports: [
     AppRoutingModule,
     BrowserModule,
+    HttpClientModule,
     NgxLoadingModule.forRoot({
       animationType: ngxLoadingAnimationTypes.wanderingCubes,
       backdropBackgroundColour: "rgba(0,0,0,0.1)",

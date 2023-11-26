@@ -1,4 +1,8 @@
-<div class="weather-page">
+<div *ngIf="!loading" class="weather-page">
   <h1>This is my weather page</h1>
   <button (click)="goToHomePage()">Go to home page</button>
 </div>
+
+<ngx-loading
+  [show]="loading"
+></ngx-loading>

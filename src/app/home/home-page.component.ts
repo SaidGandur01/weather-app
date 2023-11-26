@@ -9,7 +9,6 @@ import { TWeatherCode } from 'src/utils/types';
 })
 export class HomePageComponent implements OnInit {
 
-  loading = false;
   constructor(private router: Router) { }
 
   ngOnInit(): void {
