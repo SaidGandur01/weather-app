@@ -22,6 +22,7 @@ Chart.register(...registerables);
 export class WeatherPageComponent implements OnInit, OnDestroy {
   loading = true;
   subscription: Subscription[] = [];
+  isFarenheit = true;
 
   @Input()
   height = 200;
@@ -42,6 +43,7 @@ export class WeatherPageComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    console.log('we got in page')
     this.subscription.push(
       this.route.paramMap.subscribe((params: ParamMap) => {
         const id = params.get('id') as TWeatherCode;
@@ -67,9 +69,24 @@ export class WeatherPageComponent implements OnInit, OnDestroy {
     );
   }
 
+  onToggleTemperature(): void {
+    this.isFarenheit = !this.isFarenheit;
+    this.buildChart();
+  }
+
   private buildChart(): void {
-    console.log('this is the weather response: ', this.weatherInformation);
-    const properties: IProperties = this.weatherInformation.properties;
+    let properties: IProperties = JSON.parse(JSON.stringify(this.weatherInformation.properties));
+
+    if (!this.isFarenheit && properties.periods && properties.periods.length) {
+      properties.periods.map((period: IPeriod) => {
+        const currentFarenheitTemperature = period.temperature;
+        const currentCelsius = (currentFarenheitTemperature - 32) * (5/9);
+        period.temperature = currentCelsius;
+        return period;
+      });
+    } else {
+      properties = this.weatherInformation.properties; 
+    }
 
     const xLabels = properties.periods.map((period: IPeriod) => {
       const startTime = new Date(period.startTime);
@@ -94,6 +111,7 @@ export class WeatherPageComponent implements OnInit, OnDestroy {
           fill: true,
           borderColor: '#FFCB01',
           tension: 0.1,
+          isFarenheit: this.isFarenheit,
           pointRadius: 7,
           backgroundColor: (context: any) => {
             const chart = context.chart;
@@ -147,7 +165,7 @@ export class WeatherPageComponent implements OnInit, OnDestroy {
             callbacks: {
               label: function (ctx: any) {
                 const value = ctx.formattedValue;
-                return `Temperature: ${value} °F`;
+                return `Temperature: ${value} ${ctx.dataset.isFarenheit ? '°F' : '°C'}`;
               },
               labelTextColor: function (context: any) {
                 return '#000';
@@ -163,7 +181,7 @@ export class WeatherPageComponent implements OnInit, OnDestroy {
             beginAtZero: true,
             title: {
               display: true,
-              text: 'Temperature °F',
+              text: `Temperature ${this.isFarenheit ? '°F' : '°C'}`,
               font: {
                 color: '#181f29',
                 size: 25,

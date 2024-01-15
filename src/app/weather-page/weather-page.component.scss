@@ -2,6 +2,18 @@
   height: calc(100vh - 150px);
   padding: 5rem 10rem;
 
+  .header-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  button {
+    padding: 1rem 2.5rem;
+    letter-spacing: 1px;
+    cursor: pointer;
+  }
+
   h1 {
     font-size: 3rem;
     color: #181f29;
